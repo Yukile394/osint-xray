@@ -1,6 +1,2 @@
 requests
-beautifulsoup4
 phonenumbers
-pandas
-dnspython
-python-whois
