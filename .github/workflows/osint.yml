@@ -1,4 +1,4 @@
-name: OSINT X-RAY Tarama
+name: OSINT X-RAY
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  osint-tarama:
+  tarama:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,20 +17,12 @@ jobs:
           python-version: '3.10'
 
       - name: Bağımlılıkları yükle
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: OSINT taramasını çalıştır
         run: python osint.py
 
-      - name: Raporu Telegram'a gönder
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: |
-          curl -s -F document=@osint_rapor.json "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument?chat_id=${TELEGRAM_CHAT_ID}"
-
-      - name: Raporu Actions artefact olarak kaydet
+      - name: Raporu artefact olarak kaydet
         uses: actions/upload-artifact@v3
         with:
           name: osint-raporu
